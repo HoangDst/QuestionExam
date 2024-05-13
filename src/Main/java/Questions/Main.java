@@ -1,7 +1,4 @@
-package org.example;
-
-import model.Questions;
-import repository.QuestionRepository;
+package Questions;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -45,8 +42,8 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("List of questions:");
-                    List<Questions> allQuestions = questionRepository.getAllQuestions();
-                    for (Questions question : allQuestions) {
+                    List<Question> allQuestions = questionRepository.getAllQuestions();
+                    for (Question question : allQuestions) {
                         System.out.println(question.toString());
                     }
                     break;

@@ -1,17 +1,18 @@
-package model;
-public class Questions {
+package Questions;
+public abstract class Question {
     private int id;
     private String type;
-    private String grade;
+    private int grade;
     private String subject;
     private String chapter;
     private int difficulty;
     private String question;
     private String suggestion;
-    private int score;
+    private double score;
 
-    public Questions(int id, String type, String grade, String subject, String chapter, int difficulty,
-                     String question, String suggestion, int score) {
+    public Question() {}
+    public Question(int id, String type, int grade, String subject, String chapter, int difficulty,
+                    String question, String suggestion, double score) {
         this.id = id;
         this.type = type;
         this.grade = grade;
@@ -22,11 +23,6 @@ public class Questions {
         this.suggestion = suggestion;
         this.score = score;
     }
-
-    public Questions() {
-
-    }
-
     public int getId() {
         return id;
     }
@@ -43,11 +39,11 @@ public class Questions {
         this.type = type;
     }
 
-    public String getGrade() {
+    public int getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(int grade) {
         this.grade = grade;
     }
 
@@ -91,13 +87,15 @@ public class Questions {
         this.suggestion = suggestion;
     }
 
-    public int getScore() {
+    public double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(double score) {
         this.score = score;
     }
+
+    public abstract String toString();
 }
 
 

@@ -1,10 +1,8 @@
-package config;
-
-import config.ConfigDataBase;
+package DatabaseConfiguration;
 
 import java.sql.*;
 
-import static config.ConfigDataBase.*;
+import static DatabaseConfiguration.Config.*;
 
 public class DBConnection {
     public static Connection getConnection() throws ClassNotFoundException, SQLException {
