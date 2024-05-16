@@ -40,8 +40,7 @@ public class MultipleChoiceQuestion extends Question {
             status = sc.nextBoolean();
             answers.add(new Answer(content, status));
         }
-        sc.close();
-        sc = null;
+        //sc.close();
     }
 
     public void saveAnswer() {

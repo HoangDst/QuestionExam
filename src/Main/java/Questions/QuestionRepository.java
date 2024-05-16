@@ -47,9 +47,8 @@ public class QuestionRepository {
         String type = scanner.nextLine();
         System.out.println("Enter grade: ");
         int grade = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
-
         System.out.println("Enter subject: ");
+        scanner.nextLine(); // Clear residual newline character
         String subject = scanner.nextLine();
         System.out.println("Enter chapter: ");
         String chapter = scanner.nextLine();
@@ -77,7 +76,6 @@ public class QuestionRepository {
             MultipleChoiceQuestion mcq = new MultipleChoiceQuestion();
             mcq.addAnswer(numChoice);
             answers = mcq.getAnswers();
-
             System.out.println("Enter suggestion: ");
             String suggestion = scanner.nextLine();
             System.out.println("Enter score: ");
