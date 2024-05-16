@@ -39,6 +39,7 @@ public class QuestionRepository {
         }
         return null;
     }
+
     public void addQuestion() {
         Scanner scanner = new Scanner(System.in);
         List<Answer> answers = new ArrayList<>();
@@ -46,48 +47,60 @@ public class QuestionRepository {
         String type = scanner.nextLine();
         System.out.println("Enter grade: ");
         int grade = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
         System.out.println("Enter subject: ");
         String subject = scanner.nextLine();
         System.out.println("Enter chapter: ");
         String chapter = scanner.nextLine();
         System.out.println("Enter difficulty: ");
         int difficulty = scanner.nextInt();
-        scanner.nextLine();
+        scanner.nextLine(); // Consume the newline character
+
         System.out.println("Enter question: ");
         String question = scanner.nextLine();
+
         if (type.equalsIgnoreCase("MC")) {
             int numChoice = 0;
             while (true) {
                 System.out.println("Enter number of choices: ");
                 numChoice = scanner.nextInt();
-                if (numChoice > 0 && numChoice <= 10) break;
-                else System.out.println("Invalid number! Please try again");
+                scanner.nextLine(); // Consume the newline character
+
+                if (numChoice > 0 && numChoice <= 10) {
+                    break;
+                } else {
+                    System.out.println("Invalid number! Please try again");
+                }
             }
+
             MultipleChoiceQuestion mcq = new MultipleChoiceQuestion();
             mcq.addAnswer(numChoice);
             answers = mcq.getAnswers();
+
             System.out.println("Enter suggestion: ");
-            String suggestion = scanner.next();
+            String suggestion = scanner.nextLine();
             System.out.println("Enter score: ");
             double score = scanner.nextDouble();
+            scanner.nextLine(); // Consume the newline character
+
             mcq = new MultipleChoiceQuestion(questions.size() + 1, grade, subject, chapter, difficulty,
                     question, answers, suggestion, score);
             questions.add(mcq);
-        }
-        else {
+        } else {
             System.out.println("Enter suggestion: ");
-            String suggestion = scanner.next();
+            String suggestion = scanner.nextLine();
             System.out.println("Enter score: ");
             double score = scanner.nextDouble();
+            scanner.nextLine(); // Consume the newline character
+
             EssayQuestion eq = new EssayQuestion(questions.size() + 1, grade, subject, chapter, difficulty,
                     question, suggestion, score);
             questions.add(eq);
         }
 
-        scanner.nextLine();
         scanner.close();
     }
-
     public void updateQuestion(int id) {
         for (Question q : questions) {
             if (q.getId() == id) {

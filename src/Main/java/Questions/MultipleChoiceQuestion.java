@@ -41,6 +41,7 @@ public class MultipleChoiceQuestion extends Question {
             answers.add(new Answer(content, status));
         }
         sc.close();
+        sc = null;
     }
 
     public void saveAnswer() {
