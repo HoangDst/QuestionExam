@@ -140,7 +140,7 @@ public class QuestionRepository {
     }
 
     public void loadQuestions() {
-        questions.clear();
+        if (!questions.isEmpty()) questions.clear();
         String query = "SELECT * FROM questions";
         try (PreparedStatement preparedStatement = connector.getConnection().prepareStatement(query)) {
             ResultSet resultSet = preparedStatement.executeQuery();

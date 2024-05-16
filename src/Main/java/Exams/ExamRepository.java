@@ -112,7 +112,7 @@ public class ExamRepository {
         connector.execution(query);
     }
     public void loadExam() {
-        exams.clear();
+        if(!exams.isEmpty()) exams.clear();
         String query = "SELECT * FROM exams";
 
         try (PreparedStatement preparedStatement = connector.getConnection().prepareStatement(query)) {
