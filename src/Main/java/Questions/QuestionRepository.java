@@ -1,13 +1,16 @@
 package Questions;
+
 import DatabaseConfiguration.DBConnector;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+
 public class QuestionRepository {
     private List<Question> questions;
     private DBConnector connector = new DBConnector();
+
     public QuestionRepository() {
         loadQuestions();
     }
@@ -22,6 +25,34 @@ public class QuestionRepository {
 
     public List<Question> filter() {
         List<Question> filteredQuestions = new ArrayList<>();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter question type (E/MC): ");
+        String type = scanner.nextLine();
+        System.out.println("Enter grade: ");
+        int grade = scanner.nextInt();
+        System.out.println("Enter subject: ");
+        String subject = scanner.nextLine();
+        System.out.println("Enter chapter: ");
+        String chapter = scanner.nextLine();
+        System.out.println("Enter difficulty: ");
+        int difficulty = scanner.nextInt();
+        scanner.nextLine();
+        String query = "SELECT * FROM questions WHERE type = " + type + " AND grade = " + grade
+                + " AND subject = " + subject + " AND chapter = " + chapter + " AND difficulty = " + difficulty;
+        try (PreparedStatement preparedStatement = connector.getConnection().prepareStatement(query)){
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while(resultSet.next()){
+//                String type1 = resultSet.getString("Type");
+//                int grade1 = resultSet.getInt("Grade");
+//                String subject1 = resultSet.getString("Subject");
+//                String chapter1 = resultSet.getString("Chapter");
+//                int difficulty1 = resultSet.getInt("Difficulty");
+
+            }
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
         return filteredQuestions;
     }
 
@@ -38,6 +69,7 @@ public class QuestionRepository {
         }
         return null;
     }
+
     public void addQuestion() {
         Scanner scanner = new Scanner(System.in);
         List<Answer> answers = new ArrayList<>();
@@ -72,8 +104,7 @@ public class QuestionRepository {
             mcq = new MultipleChoiceQuestion(questions.size() + 1, grade, subject, chapter, difficulty,
                     question, answers, suggestion, score);
             questions.add(mcq);
-        }
-        else {
+        } else {
             System.out.println("Enter suggestion: ");
             String suggestion = scanner.next();
             System.out.println("Enter score: ");
@@ -124,6 +155,7 @@ public class QuestionRepository {
         query = "DELETE FROM answers";
         connector.execution(query);
     }
+
     public void saveQuestions() {
         deleteDatabaseQuestions();
         for (Question q : questions) {
@@ -168,9 +200,8 @@ public class QuestionRepository {
                     MultipleChoiceQuestion mcq = new MultipleChoiceQuestion(id, grade, subject, chapter, difficulty,
                             question, answers, suggestion, score);
                     questions.add(mcq);
-                }
-                else {
-                    EssayQuestion eq = new EssayQuestion(id, grade, subject, chapter, difficulty, question,suggestion, score);
+                } else {
+                    EssayQuestion eq = new EssayQuestion(id, grade, subject, chapter, difficulty, question, suggestion, score);
                     questions.add(eq);
                 }
             }
