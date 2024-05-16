@@ -9,6 +9,7 @@ public class QuestionRepository {
     private List<Question> questions;
     private DBConnector connector = new DBConnector();
     public QuestionRepository() {
+        questions = new ArrayList<>();
         loadQuestions();
     }
 

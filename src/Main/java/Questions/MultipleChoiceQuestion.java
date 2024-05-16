@@ -3,6 +3,7 @@ package Questions;
 import DatabaseConfiguration.DBConnector;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Collections;
@@ -10,7 +11,9 @@ import java.util.Collections;
 public class MultipleChoiceQuestion extends Question {
     private List<Answer> answers;
 
-    public MultipleChoiceQuestion() {}
+    public MultipleChoiceQuestion() {
+        answers = new ArrayList<>();
+    }
     public MultipleChoiceQuestion(int id, int grade, String subject, String chapter, int difficulty,
                          String question, List<Answer> answers, String suggestion, double score) {
         super(id, "Multiple choice", grade, subject, chapter, difficulty, question, suggestion, score);
