@@ -20,7 +20,7 @@ public class Exam {
 
     public Exam(int id, String questionIDs) {
         this.id = id;
-        this.questions = addQuestion(questionIDs);
+        this.questions = addQuestions(questionIDs);
     }
 
     public int getId() {
@@ -37,12 +37,13 @@ public class Exam {
 
     public void setId(int id) { this.id = id; }
 
-    public void addQuestion() {
+    public void addQuestions() {
         QuestionRepository qr = new QuestionRepository();
         Scanner sc = new Scanner(System.in);
         for (int i = 0; i < TotalQuestions; i++) {
             boolean found = false;
-            while (!found) {
+            boolean exist = true;
+            while (!found && exist) {
                 System.out.println("Enter the ID for question " + (i+1) + ": ");
                 int questionID = sc.nextInt();
                 found = qr.questionExist(id);
@@ -51,20 +52,36 @@ public class Exam {
                     continue;
                 }
                 else {
+                    exist = checkExist(id);
+                    if (exist) {
+                        System.out.println("Question is already in the exam! Try again.");
+                        continue;
+                    }
                     questions.add(qr.getQuestion(id));
                 }
             }
         }
     }
 
-    public List<Question> addQuestion(String questionIDs) {
+    public boolean checkExist(int id) {
+        for (Question q : questions) {
+            if (q.getId() == id) return true;
+        }
+        return false;
+    }
+    public void addQuestion(int id) {
+        QuestionRepository qr = new QuestionRepository();
+        questions.add(qr.getQuestion(id));
+    }
+
+    public List<Question> addQuestions(String questionIDs) {
         QuestionRepository qr = new QuestionRepository();
         List<Question> questionList = new ArrayList<>();
         List<Integer> qIDs = Arrays.stream(questionIDs.split(","))
                 .map(Integer::parseInt)
                 .collect(Collectors.toList());
         for (int i : qIDs) {
-            if (qr.questionExist(i)) {
+            if (qr.questionExist(i) && !checkExist(i)) {
                 questionList.add(qr.getQuestion(id));
             }
         }

@@ -22,13 +22,55 @@ public class ExamRepository {
         System.out.println("Enter number of questions for exam " + id + ": ");
         int TotalQuestions = sc.nextInt();
         Exam exam = new Exam(TotalQuestions);
-        exam.addQuestion();
+        exam.addQuestions();
         exams.add(exam);
     }
 
-    public void editExam() {} //not done
+    public void editExam(int id) {
+        if (examExist(id)) {
+            QuestionRepository qr = new QuestionRepository();
+            Exam e = getExam(id);
+            Scanner sc = new Scanner(System.in);
 
-    public void deleteExam(int id) {
+            //Display options: add more or remove
+            boolean back = false;
+            while (!back) {
+                System.out.println("Options");
+                System.out.println("1. Add new question");
+                System.out.println("2. Remove question");
+                System.out.println("3. Back");
+                System.out.println("Enter choice: ");
+                int choice = sc.nextInt();
+                switch (choice) {
+                    case 1: {
+                        System.out.println("Enter question ID you want to add: ");
+                        int qID = sc.nextInt();
+                        if (qr.questionExist(qID)) {
+                            if (e.checkExist(qID)) System.out.println("Question is already in the exam! Try again");
+                            else e.addQuestion(qID);
+                        }
+                        else System.out.println("Question with ID " + qID + " is not exist! Try again");
+                        break;
+                    }
+                    case 2: {
+                        System.out.println("Enter question ID you want to remove: ");
+                        int qID = sc.nextInt();
+                        if (qr.questionExist(qID)) e.removeQuestion(qID);
+                        else System.out.println("Question with ID " + qID + " is not exist! Try again");
+                        break;
+                    }
+                    case 3: {
+                        back = true;
+                        break;
+                    }
+                    default:
+                        System.out.println("Invalid choice! Try again");
+                }
+            }
+        }
+    }
+
+    public void removeExam(int id) {
         for (Exam e : exams) {
             if (e.getId() == id) {
                 exams.remove(e);
