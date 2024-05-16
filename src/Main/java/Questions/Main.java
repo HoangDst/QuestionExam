@@ -30,7 +30,7 @@ public class Main {
                     System.out.println("Enter id of question:");
                     int idToUpdate = scanner.nextInt();
                     scanner.nextLine();
-                    questionRepository.updateQuestion(idToUpdate);
+                    //questionRepository.updateQuestion(idToUpdate);
                     System.out.println("Updated successfully !");
                     break;
                 case 3:
@@ -42,7 +42,7 @@ public class Main {
                     break;
                 case 4:
                     System.out.println("List of questions:");
-                    List<Question> allQuestions = questionRepository.getAllQuestions();
+                    List<Question> allQuestions = questionRepository.getQuestions();
                     for (Question question : allQuestions) {
                         System.out.println(question.toString());
                     }

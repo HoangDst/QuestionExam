@@ -7,5 +7,16 @@ public class EssayQuestion extends Question {
         super(id, "Essay", grade, subject, chapter, difficulty, question, suggestion, score);
     }
 
-    public String toString() { return getQuestion(); }
+    public String toString() { 
+        return "id = " + getId() +
+                "\ntype = " + "Essay" +
+                "\ngrade = " + getGrade() +
+                "\nsubject = '" + getSubject() + '\'' +
+                "\nchapter = '" + getChapter() + '\'' +
+                "\ndifficulty = " + getDifficulty() +
+                "\nquestion = '" + getQuestion() + '\'' +
+                "\nsuggestion = '" + getSuggestion() + '\'' +
+                "\nscore = " + getScore() +
+                "\n}";
+    }
 }
