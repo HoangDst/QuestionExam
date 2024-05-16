@@ -1,0 +1,35 @@
+-- auto-generated definition
+create table questions
+(
+    ID         int auto_increment
+        primary key,
+    Type       varchar(45) not null,
+    Grade      int         not null,
+    Subject    varchar(45) not null,
+    Chapter    varchar(45) not null,
+    Difficulty int         not null,
+    Question   varchar(45) not null,
+    Suggestion varchar(45) not null,
+    Score      double      not null
+);
+
+-- auto-generated definition
+create table answers
+(
+    ID         int auto_increment
+        primary key,
+    Content    varchar(45) not null,
+    Status     tinyint     not null,
+    questionID int         not null,
+    constraint answers_multiple_choice
+        foreign key (questionID) references questions (ID)
+);
+
+-- auto-generated definition
+create table exams
+(
+    ID          int auto_increment
+        primary key,
+    questionIDs varchar(45) not null
+);
+
