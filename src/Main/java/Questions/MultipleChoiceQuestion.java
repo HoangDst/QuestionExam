@@ -3,10 +3,7 @@ package Questions;
 import DatabaseConfiguration.DBConnector;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.Collections;
+import java.util.*;
 
 public class MultipleChoiceQuestion extends Question {
     private List<Answer> answers;
@@ -16,7 +13,7 @@ public class MultipleChoiceQuestion extends Question {
     }
     public MultipleChoiceQuestion(int id, int grade, String subject, String chapter, int difficulty,
                          String question, List<Answer> answers, String suggestion, double score) {
-        super(id, "Multiple choice", grade, subject, chapter, difficulty, question, suggestion, score);
+        super(id, "MC", grade, subject, chapter, difficulty, question, suggestion, score);
         this.answers = answers;
     }
 
@@ -45,10 +42,14 @@ public class MultipleChoiceQuestion extends Question {
 
     public void saveAnswer() {
         DBConnector connector = new DBConnector();
-        for (Answer answer : answers) {
-            String query = "INSERT INTO answers (Content, Status, questionID) VALUES ("
-                    + answer.getContent() + ", " + answer.getStatus() + ", " + getId() + ")";
-            connector.execution(query);
+        for (Answer a : answers) {
+            String query = "INSERT INTO answers (Content, Status, questionID) VALUES (?, ?, ?)";
+            List<Object> parameters = Arrays.asList(
+                    a.getContent(),
+                    a.getStatus(),
+                    getId()
+            );
+            connector.execution(query, parameters);
         }
     }
 
@@ -59,7 +60,7 @@ public class MultipleChoiceQuestion extends Question {
     public String toString() {
         String str = "";
         str += "id = " + getId() +
-                "\ntype = " + "Essay" +
+                "\ntype = " + "Multiple Choice" +
                 "\ngrade = " + getGrade() +
                 "\nsubject = '" + getSubject() + '\'' +
                 "\nchapter = '" + getChapter() + '\'' +
@@ -72,8 +73,7 @@ public class MultipleChoiceQuestion extends Question {
             str += answers.get(i).toString();
         }
         str += "\nsuggestion = '" + getSuggestion() + '\'' +
-                "\nscore = " + getScore() +
-                "\n}";
+                "\nscore = " + getScore();
         return str;
     }
 }

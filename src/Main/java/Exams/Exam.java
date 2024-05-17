@@ -10,15 +10,20 @@ public class Exam {
     private int TotalQuestions;
     private List<Question> questions;
 
-    public Exam() {
+    public Exam(int id) {
+        this.id = id;
+        questions = new ArrayList<>();
         TotalQuestions = 25;
     }
 
-    public Exam(int TotalQuestion) {
+    public Exam(int id, int TotalQuestion) {
+        this.id = id;
+        questions = new ArrayList<>();
         this.TotalQuestions = TotalQuestion;
     }
 
     public Exam(int id, String questionIDs) {
+        questions = new ArrayList<>();
         this.id = id;
         this.questions = addQuestions(questionIDs);
     }
@@ -46,18 +51,18 @@ public class Exam {
             while (!found && exist) {
                 System.out.println("Enter the ID for question " + (i+1) + ": ");
                 int questionID = sc.nextInt();
-                found = qr.questionExist(id);
+                found = qr.questionExist(questionID);
                 if (!found) {
                     System.out.println("Question is not exist! Try again.");
                     continue;
                 }
                 else {
-                    exist = checkExist(id);
+                    exist = checkExist(questionID);
                     if (exist) {
                         System.out.println("Question is already in the exam! Try again.");
                         continue;
                     }
-                    questions.add(qr.getQuestion(id));
+                    questions.add(qr.getQuestion(questionID));
                 }
             }
         }
@@ -77,12 +82,17 @@ public class Exam {
     public List<Question> addQuestions(String questionIDs) {
         QuestionRepository qr = new QuestionRepository();
         List<Question> questionList = new ArrayList<>();
-        List<Integer> qIDs = Arrays.stream(questionIDs.split(","))
-                .map(Integer::parseInt)
-                .collect(Collectors.toList());
+
+        List<Integer> qIDs = new ArrayList<>();
+        String[] qidString = questionIDs.split(",");
+        for (String qs : qidString) {
+            int qID = Integer.parseInt(qs.trim());
+            qIDs.add(qID);
+        }
         for (int i : qIDs) {
             if (qr.questionExist(i) && !checkExist(i)) {
-                questionList.add(qr.getQuestion(id));
+                Question q = qr.getQuestion(i);
+                questionList.add(q);
             }
         }
         return questionList;
@@ -105,6 +115,14 @@ public class Exam {
                 mcq.shuffleAnswer();
             }
         }
+    }
+
+    public String toString() {
+        String str = "ID: " + id;
+        for (Question q : questions) {
+            str += "\n" + q.toString();
+        }
+        return str;
     }
 
 }

@@ -12,7 +12,8 @@ public class Main {
         QuestionRepository qr = new QuestionRepository();
         qr.addQuestion();
 
-        qr.saveQuestions();
+
+
         List<Question> questions = qr.getQuestions();
         for (Question q : questions) System.out.println(q);
     }
