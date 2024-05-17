@@ -1,9 +1,8 @@
 package DatabaseConfiguration;
 
 import java.sql.*;
-
 import static DatabaseConfiguration.Config.*;
-
+import java.util.List;
 public class DBConnector {
     private Connection connection;
     public DBConnector() {
@@ -18,6 +17,7 @@ public class DBConnector {
 
     public Connection getConnection() { return connection; }
 
+
     public void execution(String query) {
         try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
             preparedStatement.executeUpdate();
@@ -25,4 +25,18 @@ public class DBConnector {
             e.printStackTrace();
         }
     }
+
+    public void execution(String query, List<Object> parameters) {
+        try (PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            for (int i = 0; i < parameters.size(); i++) {
+                preparedStatement.setObject(i + 1, parameters.get(i));
+            }
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
 }

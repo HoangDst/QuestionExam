@@ -3,13 +3,16 @@
 import DatabaseConfiguration.DBConnector;
 import Questions.*;
 
+import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 public class ExamRepository {
+    private static int nextID = 1;
     List<Exam> exams;
     DBConnector connector = new DBConnector();
 
@@ -18,12 +21,17 @@ public class ExamRepository {
         loadExam();
     }
 
+    public List<Exam> getExams() {
+        return exams;
+    }
+
     public void addExam() {
         Scanner sc = new Scanner(System.in);
-        int id = exams.size() + 1;
+        int id = nextID;
+        nextID++;
         System.out.println("Enter number of questions for exam " + id + ": ");
         int TotalQuestions = sc.nextInt();
-        Exam exam = new Exam(TotalQuestions);
+        Exam exam = new Exam(id, TotalQuestions);
         exam.addQuestions();
         exams.add(exam);
     }
@@ -101,11 +109,12 @@ public class ExamRepository {
             int size = e.getQuestions().size();
             for (Question q : e.getQuestions()) {
                 str += q.getId();
-                if (size > 1) str += ",";
                 size--;
+                if (size > 0) str += ",";
             }
-            String query = "INSERT INTO exams (questionIDs) VALUES (" + str + ")";
-            connector.execution(query);
+            String query = "INSERT INTO exams (ID, questionIDs) VALUES (?, ?)";
+            List<Object> parameter = Arrays.asList(e.getId(), str);
+            connector.execution(query,parameter);
         }
     }
 
@@ -124,6 +133,7 @@ public class ExamRepository {
                 String questionIDs = resultSet.getString("questionIDs");
                 exams.add(new Exam(id, questionIDs));
             }
+            if (!exams.isEmpty()) nextID = exams.get(exams.size() - 1).getId() + 1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
