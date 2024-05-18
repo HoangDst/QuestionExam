@@ -30,13 +30,39 @@ public class ExamRepository {
         int id = nextID;
         nextID++;
         System.out.println("Enter number of questions for exam " + id + ": ");
-        int TotalQuestions = sc.nextInt();
-        Exam exam = new Exam(id, TotalQuestions);
+        int totalQuestions;
+        while (true) {
+            totalQuestions = sc.nextInt();
+            if (totalQuestions > 0 && totalQuestions <= 100) {
+
+                int totalQuestionsInDB = getTotalQuestionsFromDB();
+                if (totalQuestions <= totalQuestionsInDB) {
+                    break;
+                } else {
+                    System.out.println("Number of questions exceeds the total questions in the database. Please enter again.");
+                }
+            } else {
+                System.out.println("Number of questions must be greater than 0 and not exceed 100. Please enter again.");
+            }
+        }
+        Exam exam = new Exam(id, totalQuestions);
         exam.addQuestions();
         exams.add(exam);
     }
+    private int getTotalQuestionsFromDB() {
+        int totalQuestion = 0;
+        String query = "SELECT COUNT(*) AS total FROM questions";
+        try (PreparedStatement answerStatement = connector.getConnection().prepareStatement(query)) {
+            ResultSet answerSet = answerStatement.executeQuery();
+            if(answerSet.next()) totalQuestion= answerSet.getInt("total");
+            return totalQuestion;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return totalQuestion;
+    }
 
-    public void editExam(int id) {
+        public void editExam(int id) {
         if (examExist(id)) {
             QuestionRepository qr = new QuestionRepository();
             Exam e = getExam(id);

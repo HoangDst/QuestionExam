@@ -16,43 +16,101 @@ public class QuestionRepository {
         questions = new ArrayList<>();
         loadQuestions();
     }
+
     public List<Question> getQuestions() {
         return questions;
     }
+
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
+
     public List<Question> filter() {
         HashMap<String, String> columnFilter = new HashMap<String, String>();
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter values to filter (Enter to skip):");
-        System.out.println("Question type (E/MC): ");
-        String typeF = scanner.nextLine();
+        String typeF;
+        while (true) {
+            System.out.println("Enter question type (E/MC): ");
+            typeF = scanner.nextLine();
+            if (typeF.isEmpty() || typeF.equalsIgnoreCase("E") || typeF.equalsIgnoreCase("MC")) {
+                break;
+            } else {
+                System.out.println("Enter again.Enter 'E' or 'MC'");
+            }
+        }
         if (!typeF.isEmpty()) columnFilter.put("Type", typeF);
 
         // Grade
-        System.out.println("Grade: ");
-        String gradeF = scanner.nextLine();
-        if (!gradeF.isEmpty()) columnFilter.put("Grade", gradeF);
+        int grade1;
+        String gradeF;
+        while (true) {
+            System.out.println("Enter grade: ");
+            gradeF = scanner.nextLine();
+            if (gradeF.isEmpty()) {
+                break;
+            }
+
+            grade1 = Integer.parseInt(gradeF);
+            if (grade1 >= 1 && grade1 <= 10) {
+                break;
+            } else {
+                System.out.println("Difficulty must be between 1 and 3. Please enter again.");
+            }
+
+        }
+        if (!gradeF.isEmpty()) {
+            columnFilter.put("Grade", gradeF);
+        }
+
 
         // Subject
-        System.out.println("Subject: ");
+        System.out.println("Enter Subject: ");
         String subjectF = scanner.nextLine();
         if (!subjectF.isEmpty()) columnFilter.put("Subject", subjectF);
 
         // Chapter
-        System.out.println("Chapter: ");
+        System.out.println("Enter Chapter: ");
         String chapterF = scanner.nextLine();
         if (!chapterF.isEmpty()) columnFilter.put("Chapter", chapterF);
 
         // Difficulty
-        System.out.println("Difficulty: ");
-        String difficultyF = scanner.nextLine();
+        int difficulty1;
+        String difficultyF;
+        while (true) {
+            System.out.println("Enter difficulty: ");
+            difficultyF = scanner.nextLine();
+            if (difficultyF.isEmpty()) {
+                break;
+            }
+
+                difficulty1 = Integer.parseInt(difficultyF);
+                if (difficulty1 >= 1 && difficulty1 <= 10) {
+                    break;
+                } else {
+                    System.out.println("Difficulty must be between 1 and 3. Please enter again.");
+                }
+
+        }
         if (!difficultyF.isEmpty()) columnFilter.put("Difficulty", difficultyF);
 
         // Score
-        System.out.println("Score: ");
-        String scoreF = scanner.nextLine();
+        double score1;
+        String scoreF;
+        while (true) {
+            System.out.println("Enter score: ");
+            scoreF = scanner.nextLine();
+            if (scoreF.isEmpty()) {
+                break;
+            }
+
+                score1 = Double.parseDouble(scoreF);
+                if (score1 >= 1 && score1 <= 10) {
+                    break;
+                } else {
+                    System.out.println("Score must be between 1 and 10. Please enter again.");
+                }
+        }
         if (!scoreF.isEmpty()) columnFilter.put("Score", scoreF);
 
 
@@ -101,6 +159,9 @@ public class QuestionRepository {
                         filteredQuestions.add(eq);
                     }
                 }
+                for (Question q : filteredQuestions) {
+                    System.out.println(q);
+                }
                 return filteredQuestions;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -108,33 +169,53 @@ public class QuestionRepository {
         }
         return questions;
     }
+
     public boolean questionExist(int id) {
         for (Question q : questions) {
             if (q.getId() == id) return true;
         }
         return false;
     }
+
     public Question getQuestion(int id) {
         for (Question q : questions) {
             if (q.getId() == id) return q;
         }
         return null;
     }
+
     public void addQuestion() {
         Scanner scanner = new Scanner(System.in);
         List<Answer> answers = new ArrayList<>();
-        System.out.println("Enter question type (E/MC): ");
-        String type = scanner.nextLine();
-        System.out.println("Enter grade: ");
-        int grade = scanner.nextInt();
+        String type;
+        while (true) {
+            System.out.println("Enter question type (E/MC): ");
+            type = scanner.nextLine();
+            if (type.equalsIgnoreCase("E") || type.equalsIgnoreCase("MC")) {
+                break;
+            } else {
+                System.out.println("Enter again.Enter 'E' or 'MC'");
+            }
+        }
+
+        int grade;
+        while (true) {
+            System.out.println("Enter grade: ");
+            grade = scanner.nextInt();
+            if (grade >= 1 && grade <= 12) {
+                break;
+            } else {
+                System.out.println("Enter again.Grade must be between 1 and 12");
+            }
+        }
         System.out.println("Enter subject: ");
-        scanner.nextLine(); // Clear residual newline character
+        scanner.nextLine();
         String subject = scanner.nextLine();
         System.out.println("Enter chapter: ");
         String chapter = scanner.nextLine();
         System.out.println("Enter difficulty: ");
         int difficulty = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline character
+        scanner.nextLine();
 
         System.out.println("Enter question: ");
         String question = scanner.nextLine();
@@ -181,6 +262,7 @@ public class QuestionRepository {
 
         scanner.close();
     }
+
     public void updateQuestion(int id) {
         for (Question q : questions) {
             if (q.getId() == id) {
@@ -203,22 +285,25 @@ public class QuestionRepository {
             }
         }
     }
+
     public void deleteQuestion(int id) {
         for (Question q : questions) {
             if (q.getId() == id) questions.remove(q);
             break;
         }
     }
+
     private void deleteDatabaseQuestions() {
         String query = "DELETE FROM answers";
         connector.execution(query);
         query = "DELETE FROM questions";
         connector.execution(query);
     }
+
     public void saveQuestions() {
         deleteDatabaseQuestions();
         for (Question q : questions) {
-            String query = "INSERT INTO Questions (ID, Type, Grade, Subject, Chapter, Difficulty, Question, Suggestion, Score) " +
+            String query = "INSERT INTO questions (ID, Type, Grade, Subject, Chapter, Difficulty, Question, Suggestion, Score) " +
                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
             List<Object> parameters = Arrays.asList(
                     q.getId(),
@@ -238,6 +323,7 @@ public class QuestionRepository {
             }
         }
     }
+
     public void loadQuestions() {
         if (!questions.isEmpty()) questions.clear();
         String query = "SELECT * FROM questions";
@@ -272,7 +358,7 @@ public class QuestionRepository {
                     questions.add(eq);
                 }
             }
-            if(!questions.isEmpty()) nextId = questions.get(questions.size() - 1).getId() + 1;
+            if (!questions.isEmpty()) nextId = questions.get(questions.size() - 1).getId() + 1;
         } catch (SQLException e) {
             e.printStackTrace();
         }
