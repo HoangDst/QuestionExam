@@ -13,8 +13,14 @@ public class Main {
         //qr.addQuestion();
         //qr.deleteDatabaseQuestions();
         List<Question> questions = qr.getQuestions();
+//        for (Question q : questions) {
+//            System.out.println(q);
+//        }
+
         //for (Question q : questions) System.out.println(q + "\n\n\n");
-        //qr.updateQuestion(3);
+       // qr.updateQuestion(1);
+        qr.filter();
+        qr.saveQuestions();
         //qr.deleteQuestion(1);
         //List<Question> fq = qr.filter();
         //System.out.println("\n\n\n");
