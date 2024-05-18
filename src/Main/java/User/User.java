@@ -10,6 +10,9 @@ public class User {
     private String email;
     private String name;
 
+    public User() {
+    }
+
     public int getID() {
         return this.ID;
     }

@@ -1,9 +1,10 @@
 package Menu;
 import User.*;
-import java.util.*;
+
 import java.util.Scanner;
 
 public class Menu {
+    User u = new User();
     Scanner scanner = new Scanner(System.in);
     public void loginMenu() {
         System.out.println("Login Menu");
@@ -26,20 +27,20 @@ public class Menu {
         String username = scanner.nextLine();
         System.out.println("Enter password: ");
         String password = scanner.nextLine();
-        while (!User.authentication(username, password)) {
+        while (!u.authentication(username, password)) {
             System.out.println("Incorrect username/password. Please try again");
             System.out.println("Enter username: ");
             username = scanner.nextLine();
             System.out.println("Enter password: ");
             password = scanner.nextLine();
         }
-        int i = User.getID();
+        int id = u.getID();
         System.out.println("Login successfully");
-        mainMenu();
+        mainMenu(id);
     }
 
     public void createAccount() {
-        User.addUser();
+        u.addUser();
     }
 
     public void manageUser(int id) {
@@ -57,29 +58,29 @@ public class Menu {
             case 1:
                 System.out.println("Enter new username: ");
                 String newUsername = scanner.nextLine();
-                User.setUsername(newUsername);
+                u.setUsername(newUsername);
             case 2:
                 System.out.println("Enter new password: ");
                 String newPassword = scanner.nextLine();
-                User.setPassword(newPassword);
+                u.setPassword(newPassword);
             case 3:
                 System.out.println("Enter new name: ");
                 String newName = scanner.nextLine();
-                User.setName(newName);
+                u.setName(newName);
             case 4:
                 System.out.println("Enter new email: ");
                 String newEmail = scanner.nextLine();
-                User.setEmail(newEmail);
+                u.setEmail(newEmail);
             case 5:
-                id = User.getID();
-                User.deleteUser(id);
+                id = u.getID();
+                u.deleteUser(id);
             case 6:
                 loginMenu();
         }
         scanner.close();
     }
 
-    public void mainMenu() {
+    public void mainMenu(int id) {
         System.out.println("Main Menu");
         System.out.println("1. Your Account");
         System.out.println("2. Question");
@@ -89,7 +90,7 @@ public class Menu {
         int i = scanner.nextInt();
         switch (i) {
             case 1:
-                manageUser();
+                manageUser(id);
             case 2:
                 break;
             case 3:
