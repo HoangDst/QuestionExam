@@ -11,7 +11,7 @@ public class MultipleChoiceQuestion extends Question {
     public MultipleChoiceQuestion() {
         answers = new ArrayList<>();
     }
-    public MultipleChoiceQuestion(int id, int grade, String subject, String chapter, int difficulty,
+    public MultipleChoiceQuestion (int id, int grade, String subject, String chapter, int difficulty,
                          String question, List<Answer> answers, String suggestion, double score) {
         super(id, "MC", grade, subject, chapter, difficulty, question, suggestion, score);
         this.answers = answers;
