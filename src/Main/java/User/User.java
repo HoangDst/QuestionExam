@@ -4,7 +4,7 @@ import java.util.Scanner;
 import java.util.*;
 
 public class User {
-    private int ID = 1;
+    private int ID;
     private String username;
     private String password;
     private String email;
@@ -57,46 +57,8 @@ public class User {
         this.name = name;
     }
 
-    public void addUser() {
-        int id = ID++;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter username: ");
-        String username = scanner.nextLine();
-        System.out.println("Enter password: ");
-        String password = scanner.nextLine();
-        System.out.println("Enter email: ");
-        String email = scanner.nextLine();
-        System.out.println("Enter Name: ");
-        String name = scanner.nextLine();
-        scanner.close();
-        User user = new User(id, username, password, email, name);
-        System.out.println("User " + username + " added successfully.");
-        ID++;
-    }
-
-    public void changePassword(int ID, String newPassword) {
-        this.password = newPassword;
-        System.out.println("Password for user changed successfully.");
-    }
-
-    public void forgetPassword(int ID) {
-        this.password = "123456";
-        System.out.println("Password for user reset successfully.");
-    } //forget password, change the password to 123456
-
-    public void deleteUser(int ID) {
-        if (this.ID == 0) {
-            System.out.println("User does not exist.");
-        }
-        else {
-            System.out.println("Deleting user with ID: " + this.ID);
-            this.ID = 0;
-            this.username = null;
-            this.password = null;
-            this.email = null;
-            this.name = null;
-            System.out.println("User deleted successfully.");
-        }
+    public boolean isExist(String username, String email) {
+        return this.username.equals(username) || this.email.equals(email);
     }
 
     public boolean authentication(String enteredUsername, String enteredPassword) {

@@ -1,7 +1,6 @@
 package Questions;
 
 import DatabaseConfiguration.DBConnector;
-
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -118,7 +117,6 @@ public class QuestionRepository {
 
         if (columnFilter.size() > 0) {
             List<Question> filteredQuestions = new ArrayList<>();
-            boolean foundMatchingQuestions = false;
             int size = columnFilter.size();
             String query = "SELECT * FROM questions WHERE ";
             for (String c : columnFilter.keySet()) {
@@ -129,13 +127,11 @@ public class QuestionRepository {
 
             try (PreparedStatement preparedStatement = connector.getConnection().prepareStatement(query)) {
                 int index = 1;
-
                 for (String c : columnFilter.keySet()) {
                     preparedStatement.setString(index++, columnFilter.get(c));
                 }
                 ResultSet resultSet = preparedStatement.executeQuery();
                 while (resultSet.next()) {
-                    foundMatchingQuestions = true;
                     int id = resultSet.getInt("ID");
                     String type = resultSet.getString("Type");
                     int grade = resultSet.getInt("Grade");
@@ -163,9 +159,6 @@ public class QuestionRepository {
                         EssayQuestion eq = new EssayQuestion(id, grade, subject, chapter, difficulty, question, suggestion, score);
                         filteredQuestions.add(eq);
                     }
-                }
-                if (!foundMatchingQuestions) {
-                    System.out.println("No question found");
                 }
                 for (Question q : filteredQuestions) {
                     System.out.println(q);
@@ -330,7 +323,6 @@ public class QuestionRepository {
                     try {
                         System.out.println("Enter difficulty (1 for Easy / 2 for Medium / 3 for Hard): ");
                         difficulty = scanner.nextInt();
-                        scanner.nextLine();
                         if (difficulty >= 1 && difficulty <= 3) break;
                         else System.out.println("Invalid difficulty! Difficulty must be 1, 2 or 3");
                     }
@@ -387,8 +379,10 @@ public class QuestionRepository {
 
     public void deleteQuestion(int id) {
         for (Question q : questions) {
-            if (q.getId() == id) questions.remove(q);
-            break;
+            if (q.getId() == id){
+                questions.remove(q);
+                break;
+            }
         }
     }
 
@@ -463,7 +457,7 @@ public class QuestionRepository {
         }
     }
 
-    public void display() {
+    public void display(List<Question> questions) {
         Table table = new Table("ID", "Type", "Grade", "Subject",
                 "Chapter", "Difficulty", "Question", "Suggestion", "Score");
         for (Question q : questions) {

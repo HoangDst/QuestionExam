@@ -33,3 +33,14 @@ create table exams
     questionIDs varchar(45) not null
 );
 
+-- auto-generated definition
+create table users
+(
+    ID       int         not null
+        primary key,
+    Username varchar(45) not null,
+    Password varchar(45) not null,
+    Email    varchar(45) not null,
+    Name     varchar(45) not null
+);
+

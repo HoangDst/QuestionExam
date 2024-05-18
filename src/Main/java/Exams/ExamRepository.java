@@ -168,4 +168,11 @@ import java.util.*;
             e.printStackTrace();
         }
     }
+
+    public void display() {
+        for (Exam e : exams) {
+            e.display();
+            System.out.println("\n\n");
+        }
+    }
 }
