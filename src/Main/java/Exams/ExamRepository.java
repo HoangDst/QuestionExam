@@ -7,11 +7,9 @@ import java.sql.Array;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
-public class ExamRepository {
+import java.util.*;
+
+ public class ExamRepository {
     private static int nextID = 1;
     List<Exam> exams;
     DBConnector connector = new DBConnector();
@@ -29,9 +27,22 @@ public class ExamRepository {
         Scanner sc = new Scanner(System.in);
         int id = nextID;
         nextID++;
-        System.out.println("Enter number of questions for exam " + id + ": ");
-        int TotalQuestions = sc.nextInt();
-        Exam exam = new Exam(id, TotalQuestions);
+        int totalQuestions;
+        QuestionRepository qr = new QuestionRepository();
+        while (true) {
+            try {
+                System.out.println("Enter number of questions for exam " + id + ": ");
+                totalQuestions = sc.nextInt();
+                if (totalQuestions > 0 && totalQuestions <= 100 && totalQuestions <= qr.getQuestions().size()) break;
+                else System.out.println("Number of questions must be between 1 and 100, " +
+                        "and not greater than total questions in the repository");
+            }
+            catch (InputMismatchException e) {
+                System.out.println("Must enter a integer value! Try again");
+                sc.nextLine();
+            }
+        }
+        Exam exam = new Exam(id, totalQuestions);
         exam.addQuestions();
         exams.add(exam);
     }
@@ -45,37 +56,56 @@ public class ExamRepository {
             //Display options: add more or remove
             boolean back = false;
             while (!back) {
-                System.out.println("Options");
-                System.out.println("1. Add new question");
-                System.out.println("2. Remove question");
-                System.out.println("3. Back");
-                System.out.println("Enter choice: ");
-                int choice = sc.nextInt();
-                switch (choice) {
-                    case 1: {
-                        System.out.println("Enter question ID you want to add: ");
-                        int qID = sc.nextInt();
-                        if (qr.questionExist(qID)) {
-                            if (e.checkExist(qID)) System.out.println("Question is already in the exam! Try again");
-                            else e.addQuestion(qID);
+                try {
+                    System.out.println("Options");
+                    System.out.println("1. Add new question");
+                    System.out.println("2. Remove question");
+                    System.out.println("3. Back");
+                    System.out.println("Enter choice: ");
+                    int choice = sc.nextInt();
+                    switch (choice) {
+                        case 1: {
+                            try {
+                                System.out.println("Enter question ID you want to add: ");
+                                int qID = sc.nextInt();
+                                if (qr.questionExist(qID)) {
+                                    if (e.checkExist(qID)) System.out.println("Question is already in the exam! Try again");
+                                    else e.addQuestion(qID);
+                                }
+                                else System.out.println("Question with ID " + qID + " is not exist! Try again");
+                            }
+                            catch (InputMismatchException ex) {
+                                System.out.println("Must enter a integer value! Try again");
+                                sc.nextLine();
+                            }
+                            break;
                         }
-                        else System.out.println("Question with ID " + qID + " is not exist! Try again");
-                        break;
+                        case 2: {
+                            try {
+                                System.out.println("Enter question ID you want to remove: ");
+                                int qID = sc.nextInt();
+                                if (qr.questionExist(qID)) e.removeQuestion(qID);
+                                else System.out.println("Question with ID " + qID + " is not exist! Try again");
+                            }
+                            catch (InputMismatchException ex) {
+                                System.out.println("Must enter a integer value! Try again");
+                                sc.nextLine();
+                            }
+                            break;
+                        }
+                        case 3: {
+                            back = true;
+                            break;
+                        }
+                        default:
+                            System.out.println("Invalid choice! Try again");
                     }
-                    case 2: {
-                        System.out.println("Enter question ID you want to remove: ");
-                        int qID = sc.nextInt();
-                        if (qr.questionExist(qID)) e.removeQuestion(qID);
-                        else System.out.println("Question with ID " + qID + " is not exist! Try again");
-                        break;
-                    }
-                    case 3: {
-                        back = true;
-                        break;
-                    }
-                    default:
-                        System.out.println("Invalid choice! Try again");
                 }
+                catch (InputMismatchException ex) {
+                    System.out.println("Must enter a integer value! Try again");
+                    sc.nextLine();
+                }
+
             }
         }
     }

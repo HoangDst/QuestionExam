@@ -50,20 +50,26 @@ public class Exam {
             boolean found = false;
             boolean exist = true;
             while (!found && exist) {
-                System.out.println("Enter the ID for question " + (i+1) + ": ");
-                int questionID = sc.nextInt();
-                found = qr.questionExist(questionID);
-                if (!found) {
-                    System.out.println("Question is not exist! Try again.");
-                    continue;
-                }
-                else {
-                    exist = checkExist(questionID);
-                    if (exist) {
-                        System.out.println("Question is already in the exam! Try again.");
+                try {
+                    System.out.println("Enter the ID for question " + (i+1) + ": ");
+                    int questionID = sc.nextInt();
+                    found = qr.questionExist(questionID);
+                    if (!found) {
+                        System.out.println("Question is not exist! Try again.");
                         continue;
                     }
-                    questions.add(qr.getQuestion(questionID));
+                    else {
+                        exist = checkExist(questionID);
+                        if (exist) {
+                            System.out.println("Question is already in the exam! Try again.");
+                            continue;
+                        }
+                        questions.add(qr.getQuestion(questionID));
+                    }
+                }
+                catch (InputMismatchException ex) {
+                    System.out.println("Must enter a integer value! Try again");
+                    sc.nextLine();
                 }
             }
         }

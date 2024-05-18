@@ -29,12 +29,22 @@ public class MultipleChoiceQuestion extends Question {
         answers.clear();
         Scanner sc = new Scanner(System.in);
         String content;
-        boolean status;
+        boolean status = false;
         for (int i = 0; i < numAnswers; i++) {
             System.out.println("Enter content for choice " + (char)(i + 65) + ": ");
             content = sc.next();
-            System.out.println("Enter status for choice " + (char)(i + 65) + " (true/false): ");
-            status = sc.nextBoolean();
+            boolean valid = false;
+            while (!valid) {
+                try {
+                    System.out.println("Enter status for choice " + (char)(i + 65) + " (true/false): ");
+                    status = sc.nextBoolean();
+                    valid = true;
+                }
+                catch (InputMismatchException e) {
+                    System.out.println("Must enter a boolean value! Try again");
+                    sc.nextLine();
+                }
+            }
             answers.add(new Answer(content, status));
         }
         //sc.close();
