@@ -34,31 +34,29 @@ public class QuestionRepository {
         while (true) {
             System.out.println("Enter question type (E/MC): ");
             typeF = scanner.nextLine();
-            if (typeF.isEmpty() || typeF.equalsIgnoreCase("E") || typeF.equalsIgnoreCase("MC")) {
-                break;
-            } else {
-                System.out.println("Enter again.Enter 'E' or 'MC'");
-            }
+            if (typeF.isEmpty() || typeF.equalsIgnoreCase("E") || typeF.equalsIgnoreCase("MC")) break;
+            else System.out.println("Invalid type! Type must be 'E' or 'MC'");
+
         }
         if (!typeF.isEmpty()) columnFilter.put("Type", typeF);
 
         // Grade
-        int grade1;
         String gradeF;
         while (true) {
-            System.out.println("Enter grade: ");
-            gradeF = scanner.nextLine();
-            if (gradeF.isEmpty()) {
-                break;
-            }
+            try {
+                System.out.println("Enter grade: ");
+                gradeF = scanner.nextLine();
+                if (gradeF.isEmpty()) break;
 
-            grade1 = Integer.parseInt(gradeF);
-            if (grade1 >= 1 && grade1 <= 10) {
-                break;
-            } else {
-                System.out.println("Difficulty must be between 1 and 3. Please enter again.");
-            }
+                int grade1 = Integer.parseInt(gradeF.trim());
+                if (grade1 >= 1 && grade1 <= 12) break;
+                else System.out.println("Invalid grade! Grade must be between 1 and 12");
 
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Must enter a integer value! Try again");
+                scanner.nextLine();
+            }
         }
         if (!gradeF.isEmpty()) {
             columnFilter.put("Grade", gradeF);
@@ -76,41 +74,44 @@ public class QuestionRepository {
         if (!chapterF.isEmpty()) columnFilter.put("Chapter", chapterF);
 
         // Difficulty
-        int difficulty1;
         String difficultyF;
         while (true) {
-            System.out.println("Enter difficulty: ");
-            difficultyF = scanner.nextLine();
-            if (difficultyF.isEmpty()) {
-                break;
-            }
+            try {
+                System.out.println("Enter difficulty (1 for Easy / 2 for Medium / 3 for Hard): ");
+                difficultyF = scanner.nextLine();
+                if (difficultyF.isEmpty()) break;
 
-                difficulty1 = Integer.parseInt(difficultyF);
-                if (difficulty1 >= 1 && difficulty1 <= 10) {
-                    break;
-                } else {
-                    System.out.println("Difficulty must be between 1 and 3. Please enter again.");
-                }
+                int difficulty1 = Integer.parseInt(difficultyF.trim());
+                if (difficulty1 >= 1 && difficulty1 <= 3) break;
+                else System.out.println("Invalid difficulty! Difficulty must be 1, 2 or 3");
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Must enter a integer value! Try again");
+                scanner.nextLine();
+            }
 
         }
         if (!difficultyF.isEmpty()) columnFilter.put("Difficulty", difficultyF);
 
         // Score
-        double score1;
         String scoreF;
         while (true) {
-            System.out.println("Enter score: ");
-            scoreF = scanner.nextLine();
-            if (scoreF.isEmpty()) {
-                break;
-            }
 
-                score1 = Double.parseDouble(scoreF);
+            try {
+                System.out.println("Enter score (Scale of 10): ");
+                scoreF = scanner.nextLine();
+                if (scoreF.isEmpty()) break;
+                double score1 = Double.parseDouble(scoreF.trim());
                 if (score1 >= 1 && score1 <= 10) {
                     break;
                 } else {
-                    System.out.println("Score must be between 1 and 10. Please enter again.");
+                    System.out.println("Invalid score! Score must be 10-point scale");
                 }
+            }
+            catch (NumberFormatException e) {
+                System.out.println("Must enter a double value! Try again");
+                scanner.nextLine();
+            }
         }
         if (!scoreF.isEmpty()) columnFilter.put("Score", scoreF);
 
@@ -185,9 +186,11 @@ public class QuestionRepository {
         return null;
     }
 
+    //chưa xử lý
     public void addQuestion() {
         Scanner scanner = new Scanner(System.in);
         List<Answer> answers = new ArrayList<>();
+
         String type;
         while (true) {
             System.out.println("Enter question type (E/MC): ");
@@ -195,27 +198,45 @@ public class QuestionRepository {
             if (type.equalsIgnoreCase("E") || type.equalsIgnoreCase("MC")) {
                 break;
             } else {
-                System.out.println("Enter again.Enter 'E' or 'MC'");
+                System.out.println("Invalid type! Type must be 'E' or 'MC'");
             }
         }
 
         int grade;
         while (true) {
-            System.out.println("Enter grade: ");
-            grade = scanner.nextInt();
-            if (grade >= 1 && grade <= 12) {
-                break;
-            } else {
-                System.out.println("Enter again.Grade must be between 1 and 12");
+            try {
+                System.out.println("Enter grade: ");
+                grade = scanner.nextInt();
+                if (grade >= 1 && grade <= 12) break;
+                else System.out.println("Invalid grade! Grade must be between 1 and 12");
+            }
+            catch (InputMismatchException e) {
+                System.out.println("Must enter a integer value! Try again");
+                scanner.nextLine();
             }
         }
+
         System.out.println("Enter subject: ");
         scanner.nextLine();
         String subject = scanner.nextLine();
+
         System.out.println("Enter chapter: ");
         String chapter = scanner.nextLine();
-        System.out.println("Enter difficulty: ");
-        int difficulty = scanner.nextInt();
+
+        int difficulty;
+        while (true) {
+            try {
+                System.out.println("Enter difficulty (1 for Easy / 2 for Medium / 3 for Hard): ");
+                difficulty = scanner.nextInt();
+                if (difficulty >= 1 && difficulty <= 3) break;
+                else System.out.println("Invalid difficulty! Difficulty must be 1, 2 or 3");
+            }
+            catch (InputMismatchException e) {
+                System.out.println("Must enter a integer value! Try again");
+                scanner.nextLine();
+            }
+        }
+
         scanner.nextLine();
 
         System.out.println("Enter question: ");
@@ -224,14 +245,17 @@ public class QuestionRepository {
         if (type.equalsIgnoreCase("MC")) {
             int numChoice = 0;
             while (true) {
-                System.out.println("Enter number of choices: ");
-                numChoice = scanner.nextInt();
-                scanner.nextLine(); // Consume the newline character
+                try {
+                    System.out.println("Enter number of choices: ");
+                    numChoice = scanner.nextInt();
+                    scanner.nextLine(); // Consume the newline character
 
-                if (numChoice > 0 && numChoice <= 10) {
-                    break;
-                } else {
-                    System.out.println("Invalid number! Please try again");
+                    if (numChoice > 0 && numChoice <= 10) break;
+                    else System.out.println("Invalid number! Please try again");
+                }
+                catch (InputMismatchException e) {
+                    System.out.println("Must enter a integer value! Try again");
+                    scanner.nextLine();
                 }
             }
 
@@ -240,8 +264,21 @@ public class QuestionRepository {
             answers = mcq.getAnswers();
             System.out.println("Enter suggestion: ");
             String suggestion = scanner.nextLine();
-            System.out.println("Enter score: ");
-            double score = scanner.nextDouble();
+
+            double score;
+            while(true) {
+                try {
+                    System.out.println("Enter score (Scale of 10): ");
+                    score = scanner.nextDouble();
+                    if (score >= 0 && score <= 10) break;
+                    else System.out.println("Invalid score! Score must be 10-point scale");
+                }
+                catch (InputMismatchException e) {
+                    System.out.println("Must enter a double value! Try again");
+                    scanner.nextLine();
+                }
+            }
+
             scanner.nextLine(); // Consume the newline character
 
             mcq = new MultipleChoiceQuestion(nextId, grade, subject, chapter, difficulty,
@@ -251,8 +288,21 @@ public class QuestionRepository {
         } else {
             System.out.println("Enter suggestion: ");
             String suggestion = scanner.nextLine();
-            System.out.println("Enter score: ");
-            double score = scanner.nextDouble();
+
+            double score;
+            while(true) {
+                try {
+                    System.out.println("Enter score (Scale of 10): ");
+                    score = scanner.nextDouble();
+                    if (score >= 0 && score <= 10) break;
+                    else System.out.println("Invalid score! Score must be 10-point scale");
+                }
+                catch (InputMismatchException e) {
+                    System.out.println("Must enter a double value! Try again");
+                    scanner.nextLine();
+                }
+            }
+
             scanner.nextLine(); // Consume the newline character
 
             EssayQuestion eq = new EssayQuestion(nextId, grade, subject, chapter, difficulty,
@@ -268,20 +318,61 @@ public class QuestionRepository {
         for (Question q : questions) {
             if (q.getId() == id) {
                 Scanner scanner = new Scanner(System.in);
+
+                int difficulty;
+                while (true) {
+                    try {
+                        System.out.println("Enter difficulty (1 for Easy / 2 for Medium / 3 for Hard): ");
+                        difficulty = scanner.nextInt();
+                        if (difficulty >= 1 && difficulty <= 3) break;
+                        else System.out.println("Invalid difficulty! Difficulty must be 1, 2 or 3");
+                    }
+                    catch (InputMismatchException e) {
+                        System.out.println("Must enter a integer value! Try again");
+                        scanner.nextLine();
+                    }
+                }
+
+
                 System.out.println("Enter new question: ");
                 String question = scanner.nextLine();
                 if (q instanceof MultipleChoiceQuestion) {
                     MultipleChoiceQuestion mcq = (MultipleChoiceQuestion) q;
                     int numChoice = 0;
                     while (true) {
-                        System.out.println("Enter number of choices: ");
-                        numChoice = scanner.nextInt();
-                        if (numChoice > 0 && numChoice <= 10) break;
-                        else System.out.println("Invalid number! Please try again");
+                        try {
+                            System.out.println("Enter number of choices: ");
+                            numChoice = scanner.nextInt();
+                            scanner.nextLine(); // Consume the newline character
+
+                            if (numChoice > 0 && numChoice <= 10) break;
+                            else System.out.println("Invalid number! Please try again");
+                        }
+                        catch (InputMismatchException e) {
+                            System.out.println("Must enter a integer value! Try again");
+                            scanner.nextLine();
+                        }
                     }
                     mcq.addAnswer(numChoice);
                 }
+
+                double score;
+                while(true) {
+                    try {
+                        System.out.println("Enter score (Scale of 10): ");
+                        score = scanner.nextDouble();
+                        if (score >= 0 && score <= 10) break;
+                        else System.out.println("Invalid score! Score must be 10-point scale");
+                    }
+                    catch (InputMismatchException e) {
+                        System.out.println("Must enter a double value! Try again");
+                        scanner.nextLine();
+                    }
+                }
+
                 q.setQuestion(question);
+                q.setDifficulty(difficulty);
+                q.setScore(score);
                 break;
             }
         }
