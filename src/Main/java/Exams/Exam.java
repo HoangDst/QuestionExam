@@ -1,6 +1,7 @@
 package Exams;
 
 import Questions.*;
+import Lib.Table;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -117,12 +118,26 @@ public class Exam {
         }
     }
 
-    public String toString() {
-        String str = "ID: " + id;
-        for (Question q : questions) {
-            str += "\n" + q.toString();
+    public void display() {
+        String exam = "Exam ID#" + id;
+        Table table = new Table("", exam);
+        table.setColumnAlignment(1, false);
+        for (int i = 0; i < questions.size(); i++) {
+            Question q = questions.get(i);
+            String row1 = Integer.toString(i + 1);
+            String row2 = "ID#" + q.getId() + " - " +
+                    q.getQuestion() + " (" +
+                    q.getScore() + ")";
+            if (q instanceof MultipleChoiceQuestion) {
+                MultipleChoiceQuestion mcq = (MultipleChoiceQuestion) q;
+                List<Answer> a = mcq.getAnswers();
+                for (int j = 0; j < a.size(); j++) {
+                    row2 += "\n" + (char)(j + 65) + ". " + a.get(j).toString();
+                }
+            }
+            table.addRow(row1, row2);
         }
-        return str;
+        System.out.println(table);
     }
 
 }

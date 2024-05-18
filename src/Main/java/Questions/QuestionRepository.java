@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+import Lib.Table;
 
 public class QuestionRepository {
     private static int nextId = 1;
@@ -362,6 +363,31 @@ public class QuestionRepository {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public void display() {
+        Table table = new Table("ID", "Type", "Grade", "Subject",
+                "Chapter", "Difficulty", "Question", "Suggestion", "Score");
+        for (Question q : questions) {
+            String id = Integer.toString(q.getId());
+            String type = (q instanceof MultipleChoiceQuestion) ? "Multiple Choice" : "Essay";
+            String grade = Integer.toString(q.getGrade());
+            String subject = q.getSubject();
+            String chapter = q.getChapter();
+            String difficulty = Integer.toString(q.getDifficulty());
+            String suggestion = q.getSuggestion();
+            String score = Double.toString(q.getScore());
+            String question = q.getQuestion();
+            if (q instanceof MultipleChoiceQuestion) {
+                MultipleChoiceQuestion mcq = (MultipleChoiceQuestion) q;
+                List<Answer> a = mcq.getAnswers();
+                for (int j = 0; j < a.size(); j++) {
+                    question += "\n" + (char)(j + 65) + ". " + a.get(j).toString();
+                }
+            }
+            table.addRow(id, type, grade, subject, chapter, difficulty, question, suggestion, score);
+        }
+        System.out.println(table);
     }
 }
 
