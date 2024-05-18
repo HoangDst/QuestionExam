@@ -1,5 +1,8 @@
 package User;
 
+import java.util.Scanner;
+import java.util.*;
+
 public class User {
     private int ID = 1;
     private String username;
@@ -51,13 +54,21 @@ public class User {
         this.name = name;
     }
 
-    public void addUser(User[] User) {
-        ID++;
-        User[ID].setUsername(username);
-        User[ID].setPassword(password);
-        User[ID].setEmail(email);
-        User[ID].setName(name);
+    public void addUser() {
+        int id = ID++;
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter username: ");
+        String username = scanner.nextLine();
+        System.out.println("Enter password: ");
+        String password = scanner.nextLine();
+        System.out.println("Enter email: ");
+        String email = scanner.nextLine();
+        System.out.println("Enter Name: ");
+        String name = scanner.nextLine();
+        scanner.close();
+        User user = new User(id, username, password, email, name);
         System.out.println("User " + username + " added successfully.");
+        ID++;
     }
 
     public void changePassword(int ID, String newPassword) {
