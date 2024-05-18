@@ -88,4 +88,12 @@ public class User {
     public boolean authentication(String enteredUsername, String enteredPassword) {
         return (enteredUsername.equals(this.username) && enteredPassword.equals(this.password));
     }
+
+    public String displayUser() {
+        return "id = " + getID()
+                + "\nusername = " + getUsername()
+                + "\npassword = " + getPassword()
+                + "\nname = " + getName()
+                + "\nemail = " + getEmail();
+    }
 }
