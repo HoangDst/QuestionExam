@@ -13,11 +13,10 @@ public class Main {
         List<Exam> exams = er.getExams();
         for (Exam e : exams) e.display();
 
-/*
         Table table = new Table("Firstname", "Lastname", "Email", "Phone");
         table.setColumnAlignment(3, false);
         table.addRow("John", "Doe", "johndoe@nothing.com", "+2137999999");
         table.addRow("Jane", "Doe", "janedoe@nothin.com", "+21379aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\naaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa9999");
-        System.out.println(table);*/
+        System.out.println(table);
     }
 }
