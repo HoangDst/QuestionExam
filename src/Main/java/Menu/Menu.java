@@ -59,11 +59,6 @@ public class Menu {
                 System.out.println("Must enter a integer value! Try again");
                 sc.nextLine();
             }
-
-
-
-
-
         }
     }
     
