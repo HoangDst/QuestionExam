@@ -49,7 +49,6 @@ public class QuestionRepository {
                 int grade1 = Integer.parseInt(gradeF.trim());
                 if (grade1 >= 1 && grade1 <= 12) break;
                 else System.out.println("Invalid grade! Grade must be between 1 and 12");
-
             }
             catch (NumberFormatException e) {
                 System.out.println("Must enter a integer value! Try again");
@@ -59,8 +58,6 @@ public class QuestionRepository {
         if (!gradeF.isEmpty()) {
             columnFilter.put("Grade", gradeF);
         }
-
-
         // Subject
         System.out.println("Enter Subject: ");
         String subjectF = scanner.nextLine();
@@ -164,9 +161,7 @@ public class QuestionRepository {
                 if (!foundMatchingQuestions) {
                     System.out.println("No question found");
                 }
-                for (Question q : filteredQuestions) {
-                    System.out.println(q);
-                }
+
                 return filteredQuestions;
             } catch (SQLException e) {
                 e.printStackTrace();
@@ -287,6 +282,7 @@ public class QuestionRepository {
             mcq = new MultipleChoiceQuestion(nextId, grade, subject, chapter, difficulty,
                     question, answers, suggestion, score);
             questions.add(mcq);
+            System.out.println("Multiple Choice Question added successfully!");
             nextId++;
         } else {
             System.out.println("Enter suggestion: ");
@@ -311,10 +307,10 @@ public class QuestionRepository {
             EssayQuestion eq = new EssayQuestion(nextId, grade, subject, chapter, difficulty,
                     question, suggestion, score);
             questions.add(eq);
+            System.out.println("Essay Question added successfully!");
             nextId++;
         }
 
-        scanner.close();
     }
 
     public void updateQuestion(int id) {

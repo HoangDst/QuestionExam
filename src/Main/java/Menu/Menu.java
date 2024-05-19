@@ -63,7 +63,6 @@ public class Menu {
 
 
 
-
         }
     }
     
@@ -81,6 +80,7 @@ public class Menu {
             try {
                 System.out.println("Enter choice");
                 int mc = sc.nextInt();
+                sc.nextLine();
                 switch (mc) {
                     case 1: {
                         userMenu();
@@ -122,6 +122,7 @@ public class Menu {
             try {
                 System.out.println("Enter choice");
                 int uc = sc.nextInt();
+                sc.nextLine();
                 switch (uc) {
                     case 1: {
                         ur.display();
@@ -136,6 +137,7 @@ public class Menu {
                         try {
                             System.out.println("Enter user id you want to edit: ");
                             int id = sc.nextInt();
+                            sc.nextLine();
                             if (ur.IDExist(id)) {
                                 ur.editUser(id);
                                 ur.saveUser();
@@ -152,6 +154,7 @@ public class Menu {
                         try {
                             System.out.println("Enter user id you want to delete: ");
                             int id = sc.nextInt();
+                            sc.nextLine();
                             if (ur.IDExist(id)) {
                                 ur.removeUser(id);
                                 ur.saveUser();
@@ -192,8 +195,9 @@ public class Menu {
             System.out.println(questionMenu);
 
             try {
-                System.out.println("Enter choice");
+                System.out.println("Enter choice:");
                 int qc = sc.nextInt();
+                sc.nextLine();
                 switch (qc) {
                     case 1: {
                         qr.display(qr.getQuestions());
@@ -208,6 +212,7 @@ public class Menu {
                         try {
                             System.out.println("Enter question id you want to edit: ");
                             int id = sc.nextInt();
+                            sc.nextLine();
                             if (qr.questionExist(id)) {
                                 qr.updateQuestion(id);
                                 qr.saveQuestions();
@@ -224,6 +229,7 @@ public class Menu {
                         try {
                             System.out.println("Enter question id you want to delete: ");
                             int id = sc.nextInt();
+                            sc.nextLine();
                             if (qr.questionExist(id)) {
                                 qr.deleteQuestion(id);
                                 qr.saveQuestions();
@@ -269,6 +275,7 @@ public class Menu {
             try {
                 System.out.println("Enter choice");
                 int uc = sc.nextInt();
+                sc.nextLine();
                 switch (uc) {
                     case 1: {
                         er.display();
@@ -283,6 +290,7 @@ public class Menu {
                         try {
                             System.out.println("Enter exam id you want to edit: ");
                             int id = sc.nextInt();
+                            sc.nextLine();
                             if (er.examExist(id)) {
                                 er.editExam(id);
                                 er.saveExam();
@@ -299,6 +307,7 @@ public class Menu {
                         try {
                             System.out.println("Enter exam id you want to delete: ");
                             int id = sc.nextInt();
+                            sc.nextLine();
                             if (er.examExist(id)) {
                                 er.removeExam(id);
                                 er.saveExam();
