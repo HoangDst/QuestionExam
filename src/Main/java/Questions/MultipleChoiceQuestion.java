@@ -11,8 +11,9 @@ public class MultipleChoiceQuestion extends Question {
     public MultipleChoiceQuestion() {
         answers = new ArrayList<>();
     }
-    public MultipleChoiceQuestion (int id, int grade, String subject, String chapter, int difficulty,
-                         String question, List<Answer> answers, String suggestion, double score) {
+
+    public MultipleChoiceQuestion(int id, int grade, String subject, String chapter, int difficulty,
+                                  String question, List<Answer> answers, String suggestion, double score) {
         super(id, "MC", grade, subject, chapter, difficulty, question, suggestion, score);
         this.answers = answers;
     }
@@ -31,16 +32,15 @@ public class MultipleChoiceQuestion extends Question {
         String content;
         boolean status = false;
         for (int i = 0; i < numAnswers; i++) {
-            System.out.println("Enter content for choice " + (char)(i + 65) + ": ");
+            System.out.println("Enter content for choice " + (char) (i + 65) + ": ");
             content = sc.next();
             boolean valid = false;
             while (!valid) {
                 try {
-                    System.out.println("Enter status for choice " + (char)(i + 65) + " (true/false): ");
+                    System.out.println("Enter status for choice " + (char) (i + 65) + " (true/false): ");
                     status = sc.nextBoolean();
                     valid = true;
-                }
-                catch (InputMismatchException e) {
+                } catch (InputMismatchException e) {
                     System.out.println("Must enter a boolean value! Try again");
                     sc.nextLine();
                 }
@@ -79,7 +79,7 @@ public class MultipleChoiceQuestion extends Question {
                 "\nchoices:";
         for (int i = 0; i < answers.size(); i++) {
             str += "\n";
-            str += (char)(i + 65) + ". ";
+            str += (char) (i + 65) + ". ";
             str += answers.get(i).toString();
         }
         str += "\nsuggestion = '" + getSuggestion() + '\'' +
