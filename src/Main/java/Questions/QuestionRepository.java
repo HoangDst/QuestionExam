@@ -324,7 +324,10 @@ public class QuestionRepository {
                         System.out.println("Enter difficulty (1 for Easy / 2 for Medium / 3 for Hard): ");
                         difficulty = scanner.nextInt();
                         scanner.nextLine();
-                        if (difficulty >= 1 && difficulty <= 3) break;
+                        if (difficulty >= 1 && difficulty <= 3) {
+                            System.out.println("Question difficulty edited successfully!");
+                            break;
+                        }
                         else System.out.println("Invalid difficulty! Difficulty must be 1, 2 or 3");
                     }
                     catch (InputMismatchException e) {
@@ -345,7 +348,10 @@ public class QuestionRepository {
                             numChoice = scanner.nextInt();
                             scanner.nextLine(); // Consume the newline character
 
-                            if (numChoice > 0 && numChoice <= 10) break;
+                            if (numChoice > 0 && numChoice <= 10){
+                                System.out.println("Multiple question edited successfully!");
+                                break;
+                            }
                             else System.out.println("Invalid number! Please try again");
                         }
                         catch (InputMismatchException e) {
@@ -361,7 +367,10 @@ public class QuestionRepository {
                     try {
                         System.out.println("Enter score (Scale of 10): ");
                         score = scanner.nextDouble();
-                        if (score >= 0 && score <= 10) break;
+                        if (score >= 0 && score <= 10) {
+                            System.out.println("Question score edited successfully!");
+                            break;
+                        }
                         else System.out.println("Invalid score! Score must be 10-point scale");
                     }
                     catch (InputMismatchException e) {
@@ -382,6 +391,7 @@ public class QuestionRepository {
         for (Question q : questions) {
             if (q.getId() == id){
                 questions.remove(q);
+                System.out.println("Question deleted successfully!");
                 break;
             }
         }

@@ -113,6 +113,7 @@ public class UserRepository {
         for (User u : users) {
             if (u.getID() == id) {
                 users.remove(u);
+                System.out.println("User deleted successfully!");
                 break;
             }
         }
@@ -129,6 +130,7 @@ public class UserRepository {
                 System.out.println("Enter new password: ");
                 String password = sc.nextLine();
                 u.setPassword(password);
+                System.out.println("Password edited successfully!");
                 return;
             }
         }

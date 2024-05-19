@@ -70,7 +70,10 @@ import java.util.*;
                                 int qID = sc.nextInt();
                                 if (qr.questionExist(qID)) {
                                     if (e.checkExist(qID)) System.out.println("Question is already in the exam! Try again");
-                                    else e.addQuestion(qID);
+                                    else {
+                                        e.addQuestion(qID);
+                                        System.out.println("Question added successfully!");
+                                    }
                                 }
                                 else System.out.println("Question with ID " + qID + " is not exist! Try again");
                             }
@@ -84,7 +87,10 @@ import java.util.*;
                             try {
                                 System.out.println("Enter question ID you want to remove: ");
                                 int qID = sc.nextInt();
-                                if (qr.questionExist(qID)) e.removeQuestion(qID);
+                                if (qr.questionExist(qID)){
+                                    e.removeQuestion(qID);
+                                    System.out.println("Question removed successfully!");
+                                }
                                 else System.out.println("Question with ID " + qID + " is not exist! Try again");
                             }
                             catch (InputMismatchException ex) {
@@ -114,6 +120,7 @@ import java.util.*;
         for (Exam e : exams) {
             if (e.getId() == id) {
                 exams.remove(e);
+                System.out.println("Exam removed successfully!");
                 break;
             }
         }
