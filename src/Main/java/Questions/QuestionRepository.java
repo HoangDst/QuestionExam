@@ -46,7 +46,6 @@ public class QuestionRepository {
                 System.out.println("Enter grade: ");
                 gradeF = scanner.nextLine();
                 if (gradeF.isEmpty()) break;
-
                 int grade1 = Integer.parseInt(gradeF.trim());
                 if (grade1 >= 1 && grade1 <= 12) break;
                 else System.out.println("Invalid grade! Grade must be between 1 and 12");
@@ -232,7 +231,6 @@ public class QuestionRepository {
             try {
                 System.out.println("Enter difficulty (1 for Easy / 2 for Medium / 3 for Hard): ");
                 difficulty = scanner.nextInt();
-                scanner.nextLine();
                 if (difficulty >= 1 && difficulty <= 3) break;
                 else System.out.println("Invalid difficulty! Difficulty must be 1, 2 or 3");
             }
@@ -329,6 +327,7 @@ public class QuestionRepository {
                     try {
                         System.out.println("Enter difficulty (1 for Easy / 2 for Medium / 3 for Hard): ");
                         difficulty = scanner.nextInt();
+                        scanner.nextLine();
                         if (difficulty >= 1 && difficulty <= 3) break;
                         else System.out.println("Invalid difficulty! Difficulty must be 1, 2 or 3");
                     }

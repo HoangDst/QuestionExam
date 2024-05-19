@@ -13,6 +13,9 @@ public class Main {
         List<Exam> exams = er.getExams();
         for (Exam e : exams) e.display();
 
+        QuestionRepository qr = new QuestionRepository();
+        qr.updateQuestion(2);
+        qr.saveQuestions();
 /*
         Table table = new Table("Firstname", "Lastname", "Email", "Phone");
         table.setColumnAlignment(3, false);
