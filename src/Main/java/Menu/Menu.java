@@ -253,13 +253,13 @@ public class Menu {
     private void examMenu() {
         boolean back = false;
         while (!back) {
-            Table userMenu = new Table("", "Exam Menu");
-            userMenu.addRow("1", "Display all exams");
-            userMenu.addRow("2", "Add exam");
-            userMenu.addRow("3", "Edit exam");
-            userMenu.addRow("4", "Delete exam");
-            userMenu.addRow("5", "Back");
-            System.out.println(userMenu);
+            Table examMenu = new Table("", "Exam Menu");
+            examMenu.addRow("1", "Display all exams");
+            examMenu.addRow("2", "Add exam");
+            examMenu.addRow("3", "Edit exam");
+            examMenu.addRow("4", "Delete exam");
+            examMenu.addRow("5", "Back");
+            System.out.println(examMenu);
 
             try {
                 System.out.println("Enter choice");
@@ -279,10 +279,28 @@ public class Menu {
                             System.out.println("Enter exam id you want to edit: ");
                             int id = sc.nextInt();
                             if (er.examExist(id)) {
-                                er.editExam(id);
-                                er.saveExam();
-                            }
-                            else System.out.println("Invalid exam id!");
+                                Table editExamMenu = new Table("", "Exam Menu");
+                                editExamMenu.addRow("1", "Edit question in exam");
+                                editExamMenu.addRow("2", "Shuffle question");
+                                editExamMenu.addRow("3", "Back");
+                                System.out.println(editExamMenu);
+                                System.out.println("Enter choice");
+                                int choice = sc.nextInt();
+                                Exam e = er.getExam(id);
+                                switch (choice) {
+                                    case 1: {
+                                        er.editExam(id);
+                                        er.saveExam();
+                                        break;
+                                    }
+                                    case 2: {
+                                        e.shuffleQuestions();
+                                        er.saveExam();
+                                    }
+                                    case 3:
+                                        break;
+                                }
+                            } else System.out.println("Invalid exam id!");
                         }
                         catch (InputMismatchException ex) {
                             System.out.println("Must enter a integer value! Try again");

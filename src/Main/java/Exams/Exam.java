@@ -115,13 +115,16 @@ public class Exam {
     }
 
     public void shuffleQuestions() {
-        Collections.shuffle(questions);
-        for (Question q : questions) {
-            if (q instanceof MultipleChoiceQuestion) {
-                MultipleChoiceQuestion mcq = (MultipleChoiceQuestion) q;
-                mcq.shuffleAnswer();
+        if (questions != null) {
+            Collections.shuffle(questions);
+            for (Question q : questions) {
+                if (q instanceof MultipleChoiceQuestion) {
+                    MultipleChoiceQuestion mcq = (MultipleChoiceQuestion) q;
+                    mcq.shuffleAnswer();
+                }
             }
-        }
+            System.out.println("Shuffle successfully!");
+        } else System.out.println("Questions list is null, cannot shuffle.");
     }
 
     public void display() {
